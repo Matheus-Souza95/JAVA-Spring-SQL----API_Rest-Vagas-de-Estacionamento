@@ -1,9 +1,9 @@
-# Estudo-Spring-API_Rest
+# Estudo-Spring-API_Rest(Em Construçao)
 
 <pre>
 #Projeto de estudos utilizando como base uma aula extremamente informativa e didatica de Michelli Brito, onde personalizei o codigo utilizando outros conhecimentos adquiridos.
-A API consiste em operaçoes CRUD de cadastro de vagas de estacionamentos em edificios, utilizando banco de dados mySQL. 
-Cada vaga é unica e possui um ID como chave primaria. 
+A API consiste em operaçoes CRUD de cadastro de vagas de estacionamentos em edificios, utilizando banco de dados JAVA,Spring e mySQL. 
+
 
 
 #DEPENDENCIAS E BIBLIOTECAS UTILIZADAS:
