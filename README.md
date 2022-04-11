@@ -30,8 +30,8 @@ ROTAS:
 	"modelCar" :"",
 	"colorCar" :"",
 	"responsibleName" :"",
-  "apartment" :"",
-  "block" :""
+ 	"apartment" :"",
+  	"block" :""
 }
 *Put atualizaçao de vaga cadastrada por ID. Param: id http://localhost:8080/parking-spot/updateId/
 *Put atualizaçao de vaga cadastrada por numero da vaga. Param parkingSpotNumber http://localhost:8080/parking-spot/update/
