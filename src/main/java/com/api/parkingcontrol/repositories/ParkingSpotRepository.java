@@ -13,13 +13,13 @@ import java.util.Optional;
 @Repository
 public interface ParkingSpotRepository extends JpaRepository<ParkingSpotModel, Long>, JpaSpecificationExecutor<ParkingSpotModel> {
 
-    boolean existsByLicensePlateCar(String string);
+    //boolean existsByLicensePlateCar(String string);
 
     boolean existsByApartmentAndBlock(String string, String string2);
 
     boolean existsByParkingSpotNumber(String string);
 
-    ParkingSpotModel findByLicensePlateCar(String number);
+    //ParkingSpotModel findByLicensePlateCar(String number);
 
     ParkingSpotModel findByParkingSpotNumber(String number);
 

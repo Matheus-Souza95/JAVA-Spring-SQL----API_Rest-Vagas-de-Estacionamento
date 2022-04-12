@@ -1,12 +1,13 @@
 package com.api.parkingcontrol.specification;
 
+import com.api.parkingcontrol.models.CarModel;
 import com.api.parkingcontrol.models.ParkingSpotModel;
 import org.springframework.data.jpa.domain.Specification;
 
 
-public class ParkingSpotSpecification {
+public class CarModelSpecification {
 
-    public static Specification<ParkingSpotModel> licensePlateCar(String licensePlateCar) {
+    public static Specification<CarModel> licensePlateCar(String licensePlateCar) {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("licensePlateCar"), licensePlateCar);
     }
 
@@ -22,13 +23,4 @@ public class ParkingSpotSpecification {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("colorCar"), colorCar);
     }
 
-    public static Specification<ParkingSpotModel> responsibleNameEquals(String responsibleName) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("responsibleName"), responsibleName);
-    }
-
-
-
-    /*public static Specification<ParkingSpotModel> name(String name) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.greaterThan(root.get("salario"), salario);
-    }*/
 }

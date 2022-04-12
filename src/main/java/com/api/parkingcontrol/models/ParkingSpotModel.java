@@ -21,34 +21,26 @@ public class ParkingSpotModel extends RepresentationModel<ParkingSpotModel> impl
     private long id;
     @Column(nullable = false, unique = true, length = 15)
     private String parkingSpotNumber;
-    @Column(nullable = false, unique = true, length = 7)
-    private String licensePlateCar;
-    @Column(nullable = false, length = 70)
-    private String brandCar;
-    @Column(nullable = false, length = 70)
-    private String modelCar;
-    @Column(nullable = false, length = 70)
-    private String colorCar;
-    @Column(nullable = false)
+    @Column(nullable = true, length = 30)
     private LocalDateTime registrationDate;
-    @Column(nullable = false, length = 150)
-    private String responsibleName;
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 3)
     private String apartment;
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 1)
     private String block;
+    @OneToOne
+    @JoinColumn(nullable = true, name = "car_id")
+    private CarModel user;
+
 
     @Override
     public String toString() {
         return "ParkingSpotModel{" +
                 "id=" + id +
                 ", parkingSpotNumber='" + parkingSpotNumber + '\'' +
-                ", licensePlateCar='" + licensePlateCar + '\'' +
-                ", brandCar='" + brandCar + '\'' +
-                ", modelCar='" + modelCar + '\'' +
-                ", colorCar='" + colorCar + '\'' +
+
+
                 ", registrationDate=" + registrationDate +
-                ", responsibleName='" + responsibleName + '\'' +
+
                 ", apartment='" + apartment + '\'' +
                 ", block='" + block + '\'' +
                 '}';
