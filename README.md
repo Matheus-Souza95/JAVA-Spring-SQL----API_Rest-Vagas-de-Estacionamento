@@ -29,29 +29,31 @@ ROTAS:
   "name" :
   "cpf" :
 }
-* Put Carro. @RequestBody  e @RequestParam id usuario http://localhost:8080/parking-control/car/registration/{id}
+* Put Carro. @RequestBody, @PathVariable do id usuario que o carro pertence e @RequestParam do numero da vaga que o carro ocupara
+  http://localhost:8080/parking-control/car/registration/{id}
 {
   "licensePlateNumber" :
   "brandCar" :
   "modelCar" :
   "colorCar" :
 }
+@RequestParam parkingSpotNumber
 
 * Get Todas Vagas  http://localhost:8080/parking-control/parking-spot/all
 * Get Todos Carros  http://localhost:8080/parking-control/car/all
 * Get Todas User  http://localhost:8080/parking-control/user/all
 
-* Get Vaga ID. Param: id http://localhost:8080/parking-control/parking-spot/{id}
-* Get Usuario ID. Param: id http://localhost:8080/parking-control/user/{id}
-* Get Carro ID. Param: id http://localhost:8080/parking-control/car/{id}
+* Get Vaga ID. @PathVariable id    http://localhost:8080/parking-control/parking-spot/{id}
+* Get Usuario ID. @PathVariable id http://localhost:8080/parking-control/user/{id}
+* Get Carro ID. @PathVariable id   http://localhost:8080/parking-control/car/{id}
 
 * Get dinamico de carros de acordo com @RequestParam opcionais.  http://localhost:8080/parking-spot/?brandCar&modelCar&colorCar
   @RequestParam brandCar
   @RequestParam modelCar
   @RequestParam colorCar
 
-*Patch parcial ou completo de vaga por @RequestParam id  http://localhost:8080/parking-control/parking-spot/patchId/{id}
-*Patch parcial ou completo de usuario por @RequestParam id.  http://localhost:8080/parking-control/user/patchId/{id}
+*Patch parcial ou completo de vaga por @PathVariable id  http://localhost:8080/parking-control/parking-spot/patchId/{id}
+*Patch parcial ou completo de usuario por @PathVariable id.  http://localhost:8080/parking-control/user/patchId/{id}
 
 
 </pre>
