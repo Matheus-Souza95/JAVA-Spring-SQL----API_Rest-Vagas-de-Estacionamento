@@ -18,21 +18,36 @@ Requisitos
 6 MySQL
 
 ROTAS:
-* Get Busca todas vagas cadastradas. http://localhost:8080/parking-spot/all
-* Get por ID vaga cadastrada. Param: id http://localhost:8080/parking-spot/
+* Put Vaga. @RequestBody  http://localhost:8080/parking-control/parking-spot/registration
+{
+  "parkingSpotNumber" :
+  "apartment" :
+  "block" :
+}
+* Put Usuario. @RequestBody  http://localhost:8080/parking-control/user/registration
+{
+  "name" :
+  "cpf" :
+}
+* Put Carro. @RequestBody  http://localhost:8080/parking-control/car/registration
+{
+  "licensePlateNumber" :
+  "brandCar" :
+  "modelCar" :
+  "colorCar" :
+}
+* Get Todas Vagas  http://localhost:8080/parking-control/parking-spot/all
+* Get Todos Carros  http://localhost:8080/parking-control/car/all
+* Get Todas User  http://localhost:8080/parking-control/user/all
+
+* Get Vaga ID. Param: id http://localhost:8080/parking-control/parking-spot/{id}
+* Get Usuario ID. Param: id http://localhost:8080/parking-control/user/{id}
+* Get Carro ID. Param: id http://localhost:8080/parking-control/car/{id}
+
 * Get dinamico de vagas de acordo com parametros opcionais. Params: marca, modelo e cor do veiculo 
   http://localhost:8080/parking-spot/?brandCar&modelCar&colorCar
-*Post faz cadastro de vaga. Params request body:
-{
-	"parkingSpotNumber" :"",
-	"licensePlateCar" :	"",
- 	"brandCar" :"",
-	"modelCar" :"",
-	"colorCar" :"",
-	"responsibleName" :"",
- 	"apartment" :"",
-  	"block" :""
-}
+
+
 *Put atualizaçao de vaga cadastrada por ID. Param: id http://localhost:8080/parking-spot/updateId/
 *Put atualizaçao de vaga cadastrada por numero da vaga. Param parkingSpotNumber http://localhost:8080/parking-spot/update/
 *Patch atualizaçao parcial de vaga cadastrada. Param id http://localhost:8080/parking-spot/patchId/
