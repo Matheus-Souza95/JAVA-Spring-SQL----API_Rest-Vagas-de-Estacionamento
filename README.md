@@ -29,13 +29,14 @@ ROTAS:
   "name" :
   "cpf" :
 }
-* Put Carro. @RequestBody  http://localhost:8080/parking-control/car/registration
+* Put Carro. @RequestBody  e @RequestParam id usuario http://localhost:8080/parking-control/car/registration/{id}
 {
   "licensePlateNumber" :
   "brandCar" :
   "modelCar" :
   "colorCar" :
 }
+
 * Get Todas Vagas  http://localhost:8080/parking-control/parking-spot/all
 * Get Todos Carros  http://localhost:8080/parking-control/car/all
 * Get Todas User  http://localhost:8080/parking-control/user/all
@@ -44,12 +45,13 @@ ROTAS:
 * Get Usuario ID. Param: id http://localhost:8080/parking-control/user/{id}
 * Get Carro ID. Param: id http://localhost:8080/parking-control/car/{id}
 
-* Get dinamico de vagas de acordo com parametros opcionais. Params: marca, modelo e cor do veiculo 
-  http://localhost:8080/parking-spot/?brandCar&modelCar&colorCar
+* Get dinamico de carros de acordo com @RequestParam opcionais.  http://localhost:8080/parking-spot/?brandCar&modelCar&colorCar
+  @RequestParam brandCar
+  @RequestParam modelCar
+  @RequestParam colorCar
 
+*Patch parcial ou completo de vaga por @RequestParam id  http://localhost:8080/parking-control/parking-spot/patchId/{id}
+*Patch parcial ou completo de usuario por @RequestParam id.  http://localhost:8080/parking-control/user/patchId/{id}
 
-*Put atualizaçao de vaga cadastrada por ID. Param: id http://localhost:8080/parking-spot/updateId/
-*Put atualizaçao de vaga cadastrada por numero da vaga. Param parkingSpotNumber http://localhost:8080/parking-spot/update/
-*Patch atualizaçao parcial de vaga cadastrada. Param id http://localhost:8080/parking-spot/patchId/
 
 </pre>
