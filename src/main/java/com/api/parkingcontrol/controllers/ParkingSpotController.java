@@ -31,7 +31,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @EntityScan("com.api.parkingcontrol")
 @RestController
 @CrossOrigin(originPatterns = "*", maxAge = 3600)
-@RequestMapping("/parking-spot")
+@RequestMapping("/parking-control")
 public class ParkingSpotController {
 
     final ParkingSpotService parkingSpotService;
@@ -48,11 +48,11 @@ public class ParkingSpotController {
     }
 
     @PostMapping(("parkingSpot/registration"))
-    public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotModel psSource) {
+    public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotForm psSource) {
 
         if (parkingSpotService.existsByParkingSpotNumber(psSource.getParkingSpotNumber())) {
 
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Esta vaga ja esta em uso" + psSource.getParkingSpotNumber());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Esta vaga ja esta em uso");
         }
         if (parkingSpotService.existsByApartmentAndBlock(psSource.getApartment(), psSource.getBlock())) {
 
@@ -62,6 +62,7 @@ public class ParkingSpotController {
         ParkingSpotModel psTarget = new ParkingSpotModel();
         BeanUtils.copyProperties(psSource, psTarget);
         psTarget.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
+
         parkingSpotService.save(psTarget);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(psTarget);
@@ -94,42 +95,62 @@ public class ParkingSpotController {
 
     @PutMapping("parkingSpot/update/{id}")
     @Transactional
-    public ResponseEntity<Object> updateParkingSpot(@RequestBody ParkingSpotForm parkingSpotBody, @PathVariable(value = "id") long id) {
+    public ResponseEntity<Object> updateParkingSpot(@RequestBody ParkingSpotForm parkingSource, @PathVariable(value = "id") long id) {
         Optional<ParkingSpotModel> psOptional = parkingSpotService.findById(id);
+
         if (psOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vaga nao encontrada");
         }
-        var psTarget = new ParkingSpotModel();
+        if (parkingSpotService.existsByParkingSpotNumber(parkingSource.getParkingSpotNumber())) {
 
-        BeanUtils.copyProperties(parkingSpotBody, psTarget);
-        psTarget.setId(psOptional.get().getId());
-        psTarget.setRegistrationDate(psOptional.get().getRegistrationDate());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Esta vaga ja esta em uso");
+        }
+        if (parkingSpotService.existsByApartmentAndBlock(parkingSource.getApartment(), parkingSource.getBlock())) {
 
-        parkingSpotService.save(psTarget);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("A vaga deste apartamento e bloco ja esta em uso ");
+        }
+        var parkingTarget = new ParkingSpotModel();
 
-        psTarget.add(linkTo(methodOn(ParkingSpotController.class).getById(id)).withSelfRel());
+        BeanUtils.copyProperties(parkingSource, parkingTarget);
+        parkingTarget.setId(psOptional.get().getId());
+        parkingTarget.setRegistrationDate(psOptional.get().getRegistrationDate());
 
-        return ResponseEntity.status(HttpStatus.OK).body(psTarget);
+        parkingSpotService.save(parkingTarget);
+
+        parkingTarget.add(linkTo(methodOn(ParkingSpotController.class).getById(id)).withSelfRel());
+
+        return ResponseEntity.status(HttpStatus.OK).body(parkingTarget);
     }
 
     @PatchMapping("parkingSpot/patch/{id}")
     @Transactional
-    public ResponseEntity<ParkingSpotModel> patchParkingSpot(@RequestBody Map<Object, Object> fields, @PathVariable(value = "id") long id) {
-        Optional<ParkingSpotModel> psOptional = parkingSpotService.findById(id);
-        if (psOptional.isPresent()) {
+    public ResponseEntity<Object> patchParkingSpot(@RequestBody Map<Object, Object> fields, @PathVariable(value = "id") long id) throws IllegalAccessException {
+        Optional<ParkingSpotModel> parkingSpotOptional = parkingSpotService.findById(id);
+
+        if (parkingSpotService.existsByParkingSpotNumber(String.valueOf(ReflectionUtils.findField(ParkingSpotModel.class, "parkingSpotNumber").get(fields)))) {
+
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Esta vaga ja esta em uso");
+        }
+       /* if (parkingSpotService.existsByApartmentAndBlock(parkingSource.getApartment(), parkingSource.getBlock())) {
+
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("A vaga deste apartamento e bloco ja esta em uso ");
+        }*/
+
+        if (parkingSpotOptional.isPresent()) {
             fields.forEach((key, value) -> {
                 Field field = ReflectionUtils.findField(ParkingSpotModel.class, (String) key);
                 assert field != null;
                 field.setAccessible(true);
-                ReflectionUtils.setField(field, psOptional.get(), value);
+                ReflectionUtils.setField(field, parkingSpotOptional.get(), value);
             });
-            parkingSpotService.save(psOptional.get());
-            psOptional.get().add(linkTo(methodOn(ParkingSpotController.class).getById(id)).withSelfRel());
-            return ResponseEntity.status(HttpStatus.OK).body(psOptional.get());
+            parkingSpotService.save(parkingSpotOptional.get());
+            parkingSpotOptional.get().add(linkTo(methodOn(ParkingSpotController.class).getById(id)).withSelfRel());
+            return ResponseEntity.status(HttpStatus.OK).body(parkingSpotOptional.get());
         }
-        ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vaga nao encontrada");
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vaga nao encontrada");
+
     }
+
 
     /*public ParkingSpotDto convertToDto(ParkingSpotModel parkingSpotModel, Class<ParkingSpotDto> parkingSpotDtoClass) {
         return modelMapper.map(parkingSpotModel, ParkingSpotDto.class);

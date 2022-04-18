@@ -21,7 +21,7 @@ public interface UserRepository extends JpaRepository<UserModel, Long>, JpaSpeci
 
     Page<UserModel> findAll(Pageable pageable);
 
-    Optional<UserModel> findById(long id);
+    Optional<UserModel> findById(Long id);
 
 }
 

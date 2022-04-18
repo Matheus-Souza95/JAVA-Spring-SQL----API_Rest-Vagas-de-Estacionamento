@@ -1,5 +1,6 @@
 package com.api.parkingcontrol.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
@@ -18,7 +19,7 @@ public class ParkingSpotModel extends RepresentationModel<ParkingSpotModel> impl
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     @Column(nullable = false, unique = true, length = 15)
     private String parkingSpotNumber;
     @Column(nullable = true, length = 30)
@@ -28,9 +29,9 @@ public class ParkingSpotModel extends RepresentationModel<ParkingSpotModel> impl
     @Column(nullable = false, length = 1)
     private String block;
     @OneToOne
+    @JsonManagedReference
     @JoinColumn(nullable = true, name = "car_id")
-    private CarModel user;
-
+    private CarModel car;
 
     @Override
     public String toString() {

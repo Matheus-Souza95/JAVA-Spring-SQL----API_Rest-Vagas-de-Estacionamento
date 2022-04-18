@@ -23,6 +23,7 @@ public class CarService {
 
     @Autowired
     public CarService(CarRepository carRepository) {
+
         this.carRepository = carRepository;
     }
 
@@ -48,13 +49,17 @@ public class CarService {
 
     public List<CarModel> findAll(String brandCar, String modelCar, String colorCar) {
         List<CarModel> carList;
-        return carList = carRepository.findAll((Sort) Specification.where(
+        return carList = carRepository.findAll(Specification.where(
                 CarModelSpecification.brandCarEquals(brandCar)
                         .or(CarModelSpecification.modelCarEquals(modelCar))
                         .or(CarModelSpecification.colorCarEquals(colorCar))));
     }
 
     public boolean existsByLicensePlate(String string) {
+
         return carRepository.existsByLicensePlate(string);
     }
+
+
+
 }

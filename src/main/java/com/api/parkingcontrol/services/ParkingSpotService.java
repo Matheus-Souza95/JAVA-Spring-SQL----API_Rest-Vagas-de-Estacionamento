@@ -34,7 +34,7 @@ public class ParkingSpotService {
         return parkingSpotRepository.existsByParkingSpotNumber(string);
     }
 
-    public ParkingSpotModel findByParkingSpotNumber(String number) {
+    public Optional<ParkingSpotModel> findByParkingSpotNumber(String number) {
         return parkingSpotRepository.findByParkingSpotNumber(number);
     }
 

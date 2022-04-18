@@ -11,15 +11,15 @@ public class CarModelSpecification {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("licensePlateCar"), licensePlateCar);
     }
 
-    public static Specification<ParkingSpotModel> brandCarEquals(String brandCar) {
+    public static Specification<CarModel> brandCarEquals(String brandCar) {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("brandCar"), brandCar);
     }
 
-    public static Specification<ParkingSpotModel> modelCarEquals(String modelCar) {
+    public static Specification<CarModel> modelCarEquals(String modelCar) {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("modelCar"), modelCar);
     }
 
-    public static Specification<ParkingSpotModel> colorCarEquals(String colorCar) {
+    public static Specification<CarModel> colorCarEquals(String colorCar) {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("colorCar"), colorCar);
     }
 

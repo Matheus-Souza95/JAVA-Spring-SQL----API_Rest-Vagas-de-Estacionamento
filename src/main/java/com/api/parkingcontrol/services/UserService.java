@@ -17,6 +17,7 @@ public class UserService {
 
     @Autowired
     public UserService(UserRepository parkingSpotRepository) {
+
         this.userRepository = parkingSpotRepository;
     }
 
@@ -26,7 +27,7 @@ public class UserService {
         return userRepository.save(userModel);
     }
 
-    public Optional<UserModel> findById(long id) {
+    public Optional<UserModel> findById(Long id) {
 
         return userRepository.findById(id);
     }
@@ -36,12 +37,13 @@ public class UserService {
         return userRepository.findAll(pageable);
     }
 
-
     public UserModel findByCpf(String number) {
+
         return userRepository.findByCpf(number);
     }
 
     public boolean existsByCpf(String string) {
+
         return userRepository.existsByCpf(string);
     }
 }

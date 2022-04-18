@@ -13,8 +13,8 @@ public class ModelMapperConfig {
     public ModelMapper modelMapper() {
         var modelMapper = new ModelMapper();
 
-        modelMapper.createTypeMap(ParkingSpotModel.class, ParkingSpotDto.class).
-                addMapping(src -> src.getBlock(), (dest, value) -> dest.setBlock((String) value));
+      /*  modelMapper.createTypeMap(ParkingSpotModel.class, ParkingSpotDto.class).
+                addMapping(src -> src.getBlock(), (dest, value) -> dest.setBlock((String) value));*/
 
        /* modelMapper.createTypeMap(ParkingSpotModel.class, ParkingSpotDto.class).
                 addMapping(src -> src.getApartment(), (dest, value) -> dest.setApartment((String) value));

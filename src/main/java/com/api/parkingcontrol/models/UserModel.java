@@ -1,5 +1,6 @@
 package com.api.parkingcontrol.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
@@ -15,13 +16,14 @@ public class UserModel extends RepresentationModel<UserModel> implements Seriali
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     @Column(nullable = false,length = 50)
     private String name;
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
     @OneToOne
-    @JoinColumn(nullable = false,name = "car_id")
+    @JsonManagedReference
+    @JoinColumn(nullable = true,name = "car_id")
     private CarModel car;
 
 

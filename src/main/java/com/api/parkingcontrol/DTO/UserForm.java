@@ -8,13 +8,11 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class ParkingSpotForm implements Serializable {
+public class UserForm implements Serializable {
 
     @NotBlank(message = "Este campo nao pode ser vazio")
-    private String parkingSpotNumber;
+    private String name;
     @NotBlank(message = "Este campo nao pode ser vazio")
-    private String apartment;
-    @NotBlank(message = "Este campo nao pode ser vazio")
-    private String block;
+    private String cpf;
 
 }
