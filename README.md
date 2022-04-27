@@ -32,6 +32,7 @@ ROTAS:
 {
   "name" :
   "cpf" :
+  "password" :
 }
 
 * Put Vaga. @RequestBody  http://localhost:8080/parking-control/parking-spot/registration
