@@ -1,4 +1,4 @@
-package com.api.parkingcontrol.DTO;
+package com.api.parkingcontrol.form;
 
 import com.api.parkingcontrol.models.CarModel;
 import lombok.Getter;

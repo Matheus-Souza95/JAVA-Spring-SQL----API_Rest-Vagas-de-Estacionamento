@@ -14,5 +14,4 @@ public class CarDto extends RepresentationModel<CarDto> implements Serializable 
     private String brandCar;
     private String modelCar;
     private String colorCar;
-
 }

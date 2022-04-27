@@ -32,6 +32,11 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public Optional<UserModel> findByName(String name) {
+
+        return Optional.ofNullable(userRepository.findByName(name));
+    }
+
     public Page<UserModel> findAll(Pageable pageable) {
 
         return userRepository.findAll(pageable);
@@ -46,4 +51,5 @@ public class UserService {
 
         return userRepository.existsByCpf(string);
     }
+
 }

@@ -1,9 +1,8 @@
 package com.api.parkingcontrol.controllers;
 
-import com.api.parkingcontrol.DTO.UserForm;
-import com.api.parkingcontrol.models.CarModel;
-import com.api.parkingcontrol.models.ParkingSpotModel;
+import com.api.parkingcontrol.form.UserForm;
 import com.api.parkingcontrol.models.UserModel;
+import com.api.parkingcontrol.repositories.ProfileRepository;
 import com.api.parkingcontrol.services.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +13,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.lang.reflect.Field;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Map;
 import java.util.Optional;
 
@@ -35,13 +34,19 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class UserController {
 
     final UserService userService;
+    final ProfileRepository profileRepository;
 
     @Autowired
-    public UserController(UserService userService) {
-
+    public UserController(UserService userService, ProfileRepository profileAccess) {
         this.userService = userService;
+        this.profileRepository = profileAccess;
     }
 
+    private BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @PreAuthorize("permitAll= true")
     @PostMapping(("user/registration"))
     public ResponseEntity<Object> saveUser(@RequestBody @Valid UserForm userSource) {
 
@@ -52,11 +57,15 @@ public class UserController {
         UserModel userTarget = new UserModel();
         BeanUtils.copyProperties(userSource, userTarget);
 
+        userTarget.setPassword(bCryptPasswordEncoder().encode(userSource.getPassword()));
+        userTarget.setProfiles(profileRepository.findByName("ROLE_DEFAULT"));
+
         userService.save(userTarget);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userTarget);
     }
 
+    @PreAuthorize("permitAll= true")
     @GetMapping("user/all")
     public ResponseEntity<Page<UserModel>> getAllUser(@PageableDefault(page = 0, size = 2, direction = Sort.Direction.ASC) Pageable pageable) {
         Page<UserModel> userList = userService.findAll(pageable);
@@ -71,6 +80,7 @@ public class UserController {
         return ResponseEntity.ok().body(userList);
     }
 
+    @PreAuthorize("permitAll= true")
     @GetMapping("user/{id}")
     public ResponseEntity<Object> getById(@PathVariable(value = "id") long id) {
         Optional<UserModel> userOptional = userService.findById(id);
@@ -82,6 +92,7 @@ public class UserController {
         return ResponseEntity.ok().body(userOptional);
     }
 
+    @PreAuthorize("hasRole('ROLE_DEFAULT')")
     @PatchMapping("user/patch/{id}")
     @Transactional
     public ResponseEntity<Object> patchUser(@RequestBody Map<String, String> sourceFields, @PathVariable(value = "id") long id) {
@@ -102,8 +113,7 @@ public class UserController {
 
         userService.save(userOptional.get());
 
-        userOptional.get().add(linkTo(methodOn(CarController.class).getById(id)).withSelfRel());
+        userOptional.get().add(linkTo(methodOn(UserController.class).getById(id)).withSelfRel());
         return ResponseEntity.status(HttpStatus.OK).body(userOptional.get());
-
     }
 }

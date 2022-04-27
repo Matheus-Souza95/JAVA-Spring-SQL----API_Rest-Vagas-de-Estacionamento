@@ -26,10 +26,6 @@ public class ParkingSpotService {
         return parkingSpotRepository.save(parkingSpotModel);
     }
 
-    public boolean existsByApartmentAndBlock(String string, String string2) {
-        return parkingSpotRepository.existsByApartmentAndBlock(string, string2);
-    }
-
     public boolean existsByParkingSpotNumber(String string) {
         return parkingSpotRepository.existsByParkingSpotNumber(string);
     }

@@ -1,5 +1,6 @@
 package com.api.parkingcontrol.models;
 
+import com.api.parkingcontrol.utils.Vacant;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,30 +21,24 @@ public class ParkingSpotModel extends RepresentationModel<ParkingSpotModel> impl
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(nullable = false, unique = true, length = 15)
+    @Column(nullable = false, unique = true, length = 5)
     private String parkingSpotNumber;
-    @Column(nullable = true, length = 30)
-    private LocalDateTime registrationDate;
-    @Column(nullable = false, length = 3)
-    private String apartment;
-    @Column(nullable = false, length = 1)
-    private String block;
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private Vacant isVacant;
     @OneToOne
     @JsonManagedReference
     @JoinColumn(nullable = true, name = "car_id")
     private CarModel car;
+
 
     @Override
     public String toString() {
         return "ParkingSpotModel{" +
                 "id=" + id +
                 ", parkingSpotNumber='" + parkingSpotNumber + '\'' +
-
-
-                ", registrationDate=" + registrationDate +
-
-                ", apartment='" + apartment + '\'' +
-                ", block='" + block + '\'' +
+                ", isVacant=" + isVacant +
+                ", car=" + car +
                 '}';
     }
 }

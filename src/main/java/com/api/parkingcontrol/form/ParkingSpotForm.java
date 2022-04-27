@@ -1,4 +1,4 @@
-package com.api.parkingcontrol.DTO;
+package com.api.parkingcontrol.form;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,9 +12,4 @@ public class ParkingSpotForm implements Serializable {
 
     @NotBlank(message = "Este campo nao pode ser vazio")
     private String parkingSpotNumber;
-    @NotBlank(message = "Este campo nao pode ser vazio")
-    private String apartment;
-    @NotBlank(message = "Este campo nao pode ser vazio")
-    private String block;
-
 }

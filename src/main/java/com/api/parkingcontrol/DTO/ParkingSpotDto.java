@@ -15,9 +15,6 @@ public class ParkingSpotDto extends RepresentationModel<ParkingSpotDto> implemen
     private String brandCar;
     private String modelCar;
     private String colorCar;
-    private String responsibleName;
-    private String apartment;
-    private String block;
 
     @Override
     public String toString() {
@@ -27,9 +24,6 @@ public class ParkingSpotDto extends RepresentationModel<ParkingSpotDto> implemen
                 ", brandCar='" + brandCar + '\'' +
                 ", modelCar='" + modelCar + '\'' +
                 ", colorCar='" + colorCar + '\'' +
-                ", responsibleName='" + responsibleName + '\'' +
-                ", apartment='" + apartment + '\'' +
-                ", block='" + block + '\'' +
                 '}';
     }
 }

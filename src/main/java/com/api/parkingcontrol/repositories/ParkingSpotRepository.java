@@ -13,21 +13,13 @@ import java.util.Optional;
 @Repository
 public interface ParkingSpotRepository extends JpaRepository<ParkingSpotModel, Long>, JpaSpecificationExecutor<ParkingSpotModel> {
 
-    boolean existsByApartmentAndBlock(String string, String string2);
-
     boolean existsByParkingSpotNumber(String string);
 
-    //ParkingSpotModel findByLicensePlateCar(String number);
-
     Optional<ParkingSpotModel> findByParkingSpotNumber(String number);
-
-    //List<ParkingSpotModel> findAll(String brandCar, String modelCar, String colorCar);
 
     Page<ParkingSpotModel> findAll(Pageable pageable);
 
     Optional<ParkingSpotModel> findById(long id);
-
-    //ResponseEntity<Object> patch(@RequestBody Map<Object, Object> fields, @PathVariable(value = "id") long id);
 
 }
 
