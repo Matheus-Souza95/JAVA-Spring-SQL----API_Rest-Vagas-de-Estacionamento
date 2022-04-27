@@ -9,27 +9,37 @@ Requisitos
 -Maven 4.0
 -mySQL 8.0
 
-#DEPENDENCIAS E BIBLIOTECAS UTILIZADAS:
-1 Maven(gerenciamento de dependencias).	
-2 Lombok, para agilidade e evitar scripts longos e verbosos.
-3 Spring-boot-starter-data-jpa, básico para persistir dados.
-4 Spring-boot-starter-validation e Hibernate Validator, novamente para ganhar agilidade e codigos mais limpos, validando dados/inputs.
-5 Spring-boot-starter-hateoas para criar hiperlinks de navegaçao e auxilio aos recursos da API.
-6 MySQL
+#Instruçoes de uso
+1 - Usuário e senha padrões do banco: 'root' e 'root'.
+2 - No MySQL utilizar comando CREATE DATABASE parking_control_db;
+3 - Startar o projeto na IDE.
+2 - No MySQL, utilizar o comando INSERT INTO profile_access(name, id) VALUES('ROLE_DEFAULT','1'); para criar uma Role de acesso.
+3 - Criar usuario no postman/insomnia etc e anotar ID.
+4 - Logar usuario e anotar Token.
+5 - Criar vaga no postman/insomnia e anotar o parkingSpotNumber da vaga.
+6 - Criar carro no postman/insomnia e passar ID do usuario e numero da vaga.
+
 
 ROTAS:
-* Put Vaga. @RequestBody  http://localhost:8080/parking-control/parking-spot/registration
+
+* Get Loggin http://localhost:8080/loggin
 {
-  "parkingSpotNumber" :
-  "apartment" :
-  "block" :
+	"userName":
+	"password":
 }
+
 * Put Usuario. @RequestBody  http://localhost:8080/parking-control/user/registration
 {
   "name" :
   "cpf" :
 }
-* Put Carro. @RequestBody, @PathVariable do id usuario que o carro pertence e @RequestParam do numero da vaga que o carro ocupara
+
+* Put Vaga. @RequestBody  http://localhost:8080/parking-control/parking-spot/registration
+{
+  "parkingSpotNumber" :
+}
+
+* Put Carro. @RequestBody, @PathVariable do id usuario que o carro pertence e @RequestParam do numero da vaga que o carro ocupará
   http://localhost:8080/parking-control/car/registration/{id}
 {
   "licensePlateNumber" :
