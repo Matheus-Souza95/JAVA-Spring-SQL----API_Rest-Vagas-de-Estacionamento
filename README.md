@@ -1,15 +1,15 @@
-# Estudo-Spring-API_Rest(Em Construçao)
+# Estudo-Spring-API_Rest(Em Construçao)<h1>
 
 <pre>
-#Projeto de estudos.
+<h2>Projeto de estudos<h5>
 A API consiste em operaçoes CRUD de cadastro de veiculos em vagas de estacionamento, utilizando JAVA, Spring e mySQL. 
 
-Requisitos
+<h2>Requisitos<h5>
 -Java 11
 -Maven 4.0
 -mySQL 8.0
 
-#Instruçoes de uso
+<h2>Instruçoes de uso<h5>
 1 - Usuário e senha padrões do banco: 'root' e 'root'.
 2 - No MySQL utilizar comando CREATE DATABASE parking_control_db;
 3 - Startar o projeto na IDE.
@@ -20,27 +20,30 @@ Requisitos
 6 - Criar carro no postman/insomnia e passar ID do usuario e numero da vaga.
 
 
-ROTAS:
+<h2>ROTAS:<h5>
 
-* Get Loggin http://localhost:8080/loggin
+ Get Loggin http://localhost:8080/loggin
 {
 	"userName":
 	"password":
 }
 
-* Put Usuario. @RequestBody  http://localhost:8080/parking-control/user/registration
+
+ Put Usuario. @RequestBody  http://localhost:8080/parking-control/user/registration
 {
   "name" :
   "cpf" :
   "password" :
 }
 
-* Put Vaga. @RequestBody  http://localhost:8080/parking-control/parking-spot/registration
+
+ Put Vaga. @RequestBody  http://localhost:8080/parking-control/parking-spot/registration
 {
   "parkingSpotNumber" :
 }
 
-* Put Carro. @RequestBody, @PathVariable do id usuario que o carro pertence e @RequestParam do numero da vaga que o carro ocupará
+
+ Put Carro. @RequestBody, @PathVariable do id usuario que o carro pertence e @RequestParam do numero da vaga que o carro ocupará
   http://localhost:8080/parking-control/car/registration/{id}
 {
   "licensePlateNumber" :
@@ -50,21 +53,25 @@ ROTAS:
 }
 @RequestParam parkingSpotNumber
 
-* Get Todas Vagas  http://localhost:8080/parking-control/parking-spot/all
-* Get Todos Carros  http://localhost:8080/parking-control/car/all
-* Get Todas User  http://localhost:8080/parking-control/user/all
 
-* Get Vaga ID. @PathVariable id    http://localhost:8080/parking-control/parking-spot/{id}
-* Get Usuario ID. @PathVariable id http://localhost:8080/parking-control/user/{id}
-* Get Carro ID. @PathVariable id   http://localhost:8080/parking-control/car/{id}
+ Get Todas Vagas  http://localhost:8080/parking-control/parking-spot/all
+ Get Todos Carros  http://localhost:8080/parking-control/car/all
+ Get Todas User  http://localhost:8080/parking-control/user/all
 
-* Get dinamico de carros de acordo com @RequestParam opcionais.  http://localhost:8080/parking-spot/?brandCar&modelCar&colorCar
-  @RequestParam brandCar
-  @RequestParam modelCar
-  @RequestParam colorCar
 
-*Patch parcial ou completo de vaga por @PathVariable id  http://localhost:8080/parking-control/parking-spot/patchId/{id}
-*Patch parcial ou completo de usuario por @PathVariable id.  http://localhost:8080/parking-control/user/patchId/{id}
+ Get Vaga ID. @PathVariable id    http://localhost:8080/parking-control/parking-spot/{id}
+ Get Usuario ID. @PathVariable id http://localhost:8080/parking-control/user/{id}
+ Get Carro ID. @PathVariable id   http://localhost:8080/parking-control/car/{id}
+
+
+ Get dinamico de carros de acordo com @RequestParam opcionais.  http://localhost:8080/parking-spot/?brandCar&modelCar&colorCar
+ @RequestParam brandCar
+ @RequestParam modelCar
+ @RequestParam colorCar
+
+
+ Patch parcial ou completo de vaga por @PathVariable id  http://localhost:8080/parking-control/parking-spot/patchId/{id}
+ Patch parcial ou completo de usuario por @PathVariable id.  http://localhost:8080/parking-control/user/patchId/{id}
 
 
 </pre>
