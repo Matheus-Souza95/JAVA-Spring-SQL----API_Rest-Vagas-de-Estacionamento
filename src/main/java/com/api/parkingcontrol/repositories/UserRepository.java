@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<UserModel, Long>, JpaSpeci
 
     boolean existsByCpf(String string);
 
-    UserModel findByCpf(String number);
+    Optional<UserModel> findByCpf(String number);
 
     UserModel findByName(String number);
 

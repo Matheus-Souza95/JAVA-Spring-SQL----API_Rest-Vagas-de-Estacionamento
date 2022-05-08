@@ -4,6 +4,7 @@ import com.api.parkingcontrol.utils.Vacant;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
@@ -30,7 +31,6 @@ public class ParkingSpotModel extends RepresentationModel<ParkingSpotModel> impl
     @JsonManagedReference
     @JoinColumn(nullable = true, name = "car_id")
     private CarModel car;
-
 
     @Override
     public String toString() {

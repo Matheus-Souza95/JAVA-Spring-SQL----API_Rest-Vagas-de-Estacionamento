@@ -1,7 +1,7 @@
 package com.api.parkingcontrol.controllers;
 
 import com.api.parkingcontrol.form.LoginForm;
-import com.api.parkingcontrol.DTO.TokenDto;
+import com.api.parkingcontrol.dto.TokenDto;
 import com.api.parkingcontrol.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/auth")
+@RequestMapping("/loggin")
 public class AuthenticationController {
 
     @Autowired

@@ -5,8 +5,6 @@ import com.api.parkingcontrol.models.ParkingSpotModel;
 import com.api.parkingcontrol.services.CarService;
 import com.api.parkingcontrol.services.ParkingSpotService;
 import com.api.parkingcontrol.services.UserService;
-import com.api.parkingcontrol.utils.Vacant;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.domain.Page;
@@ -21,9 +19,7 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.lang.reflect.Field;
 import java.util.Map;
-import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -49,29 +45,15 @@ public class ParkingSpotController {
 
     @PreAuthorize("hasRole('ROLE_DEFAULT')")
     @PostMapping(("parkingSpot/registration"))
-    public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotForm psSource) {
-
-        if (parkingSpotService.existsByParkingSpotNumber(psSource.getParkingSpotNumber())) {
-
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Esta vaga ja existe");
-        }
-        ParkingSpotModel psTarget = new ParkingSpotModel();
-        BeanUtils.copyProperties(psSource, psTarget);
-        psTarget.setIsVacant(Vacant.TRUE);
-
-        parkingSpotService.save(psTarget);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(psTarget);
+    public ResponseEntity<Object> save(@RequestBody @Valid ParkingSpotForm parkingSpotSource) {
+        ParkingSpotModel parkingSpotModel = parkingSpotService.saveNew(parkingSpotSource);
+        return ResponseEntity.status(HttpStatus.OK).body(parkingSpotModel);
     }
 
     @PreAuthorize("permitAll= true")
     @GetMapping("parkingSpot/all")
-    public ResponseEntity<Object> getAllParkingSpot(@PageableDefault(page = 0, size = 2, direction = Sort.Direction.ASC) Pageable pageable) {
-
+    public ResponseEntity<Page<ParkingSpotModel>> getAll(@PageableDefault(page = 0, size = 2, direction = Sort.Direction.ASC) Pageable pageable) {
         Page<ParkingSpotModel> psList = parkingSpotService.findAll(pageable);
-        if (psList.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nao há vagas registradas");
-        }
 
         for (ParkingSpotModel ps : psList) {
             long id = ps.getId();
@@ -83,77 +65,21 @@ public class ParkingSpotController {
 
     @GetMapping("parkingSpot/{id}")
     public ResponseEntity<Object> getById(@PathVariable(value = "id") long id) {
+        ParkingSpotModel parkingSpot = parkingSpotService.findById(id);
 
-        Optional<ParkingSpotModel> parkingSpotOptional = parkingSpotService.findById(id);
-        if (parkingSpotOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vaga nao encontrada");
-        }
+        parkingSpot.add(linkTo(methodOn(ParkingSpotController.class).getById(id)).withSelfRel());
 
-        parkingSpotOptional.get().add(linkTo(methodOn(ParkingSpotController.class).getById(id)).withSelfRel());
-        return ResponseEntity.ok().body(parkingSpotOptional);
+        return ResponseEntity.ok().body(parkingSpot);
     }
 
     @PreAuthorize("hasRole('ROLE_DEFAULT')")
     @PutMapping("parkingSpot/update/{id}")
     @Transactional
-    public ResponseEntity<Object> updateParkingSpot(@RequestBody ParkingSpotForm parkingSource, @PathVariable(value = "id") long id) {
-        Optional<ParkingSpotModel> psOptional = parkingSpotService.findById(id);
+    public ResponseEntity<ParkingSpotModel> update(@RequestBody ParkingSpotForm parkingSpotSource, @PathVariable(value = "id") long id) {
+        ParkingSpotModel parkingSpotModel = parkingSpotService.saveNew(parkingSpotSource);
 
-        if (psOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vaga nao encontrada");
-        }
-        if (!psOptional.get().getParkingSpotNumber().equals(parkingSource.getParkingSpotNumber())
-                && parkingSpotService.existsByParkingSpotNumber(psOptional.get().getParkingSpotNumber())) {
+        parkingSpotModel.add(linkTo(methodOn(ParkingSpotController.class).getById(id)).withSelfRel());
 
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Esta vaga ja esta em uso");
-        }
-
-        var parkingTarget = new ParkingSpotModel();
-
-        BeanUtils.copyProperties(parkingSource, parkingTarget);
-        parkingTarget.setId(psOptional.get().getId());
-
-        parkingSpotService.save(parkingTarget);
-
-        parkingTarget.add(linkTo(methodOn(ParkingSpotController.class).getById(id)).withSelfRel());
-
-        return ResponseEntity.status(HttpStatus.OK).body(parkingTarget);
+        return ResponseEntity.status(HttpStatus.OK).body(parkingSpotModel);
     }
-
-    @PreAuthorize("hasRole('ROLE_DEFAULT')")
-    @PatchMapping("parkingSpot/patch/{id}")
-    @Transactional
-    public ResponseEntity<Object> patchParkingSpot(@RequestBody Map<Object, Object> fields, @PathVariable(value = "id") long id) throws IllegalAccessException {
-        Optional<ParkingSpotModel> parkingSpotOptional = parkingSpotService.findById(id);
-
-        if (parkingSpotService.existsByParkingSpotNumber(String.valueOf(ReflectionUtils.findField(ParkingSpotModel.class, "parkingSpotNumber").get(fields)))) {
-
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Esta vaga ja esta em uso");
-        }
-
-        if (parkingSpotOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vaga nao encontrada");
-        }
-
-        fields.forEach((key, value) -> {
-            Field field = ReflectionUtils.findField(ParkingSpotModel.class, (String) key);
-            assert field != null;
-            field.setAccessible(true);
-            ReflectionUtils.setField(field, parkingSpotOptional.get(), value);
-        });
-        parkingSpotService.save(parkingSpotOptional.get());
-        parkingSpotOptional.get().add(linkTo(methodOn(ParkingSpotController.class).getById(id)).withSelfRel());
-        return ResponseEntity.status(HttpStatus.OK).body(parkingSpotOptional.get());
-
-
-    }
-
-
-    /*public ParkingSpotDto convertToDto(ParkingSpotModel parkingSpotModel, Class<ParkingSpotDto> parkingSpotDtoClass) {
-        return modelMapper.map(parkingSpotModel, ParkingSpotDto.class);
-    }
-
-    public ParkingSpotDto convertEntityToDto(ParkingSpotModel parkingSpotModel, Class<ParkingSpotDto> parkingSpotDtoClass) {
-        return modelMapper.map(parkingSpotModel, ParkingSpotDto.class);
-    }*/
 }

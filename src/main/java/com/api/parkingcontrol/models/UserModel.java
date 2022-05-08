@@ -4,6 +4,7 @@ import com.api.parkingcontrol.security.ProfileAccess;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,6 +32,7 @@ public class UserModel extends RepresentationModel<UserModel> implements Seriali
     private String password;
     @OneToOne
     @JsonManagedReference
+    @Cascade({org.hibernate.annotations.CascadeType.REMOVE})
     @JoinColumn(nullable = true, name = "car_id")
     private CarModel car;
 

@@ -16,7 +16,7 @@ public interface CarRepository extends JpaRepository<CarModel, Long>, JpaSpecifi
 
     boolean existsByLicensePlate(String string);
 
-    CarModel findByLicensePlate(String number);
+    Optional<CarModel> findByLicensePlate(String number);
 
 }
 

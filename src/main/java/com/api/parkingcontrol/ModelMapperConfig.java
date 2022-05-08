@@ -1,7 +1,5 @@
 package com.api.parkingcontrol;
 
-import com.api.parkingcontrol.DTO.ParkingSpotDto;
-import com.api.parkingcontrol.models.ParkingSpotModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -19,7 +19,6 @@ public interface ParkingSpotRepository extends JpaRepository<ParkingSpotModel, L
 
     Page<ParkingSpotModel> findAll(Pageable pageable);
 
-    Optional<ParkingSpotModel> findById(long id);
 
 }
 
