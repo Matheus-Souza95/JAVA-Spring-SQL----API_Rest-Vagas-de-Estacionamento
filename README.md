@@ -1,7 +1,7 @@
 # Estudo-Spring-API_Rest(Em Construçao)
 
 <pre>
-#Projeto de estudos utilizando como base a aula extremamente didatica de Michelli Brito, onde personalizei o codigo utilizando outros conhecimentos adquiridos.
+#Projeto de estudos 
 A API consiste em operaçoes CRUD de cadastro de vagas de estacionamentos em edificios, utilizando JAVA,Spring e mySQL. 
 
 Requisitos
