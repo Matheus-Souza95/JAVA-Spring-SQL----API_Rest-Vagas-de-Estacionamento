@@ -2,7 +2,7 @@
 
 <pre>
 #Projeto de estudos 
-A API consiste em operaçoes CRUD de cadastro de vagas de estacionamentos em edificios, utilizando JAVA,Spring e mySQL. 
+API de gerenciamento de um estacionamento, utilizando JAVA, Spring e mySQL. 
 
 Requisitos
 -Java 11
