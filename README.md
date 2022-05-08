@@ -21,13 +21,12 @@ ROTAS:
 * Put Vaga. @RequestBody  http://localhost:8080/parking-control/parking-spot/registration
 {
   "parkingSpotNumber" :
-  "apartment" :
-  "block" :
 }
 * Put Usuario. @RequestBody  http://localhost:8080/parking-control/user/registration
 {
   "name" :
   "cpf" :
+  "password" :
 }
 * Put Carro. @RequestBody, @PathVariable do id usuario que o carro pertence e @RequestParam do numero da vaga que o carro ocupara
   http://localhost:8080/parking-control/car/registration/{id}
